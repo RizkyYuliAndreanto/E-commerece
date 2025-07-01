@@ -2,15 +2,10 @@
 const { Model } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
+  // PERBAIKI NAMA CLASS DI SINI: dari CartItem menjadi OrderItem (jika sebelumnya salah)
   class OrderItem extends Model {
     static associate(models) {
-      // Relasi ke Order
-      this.belongsTo(models.Order, {
-        foreignKey: "order_id",
-        as: "order",
-      });
-
-      // Relasi ke Product
+      this.belongsTo(models.Order, { foreignKey: "order_id", as: "order" });
       this.belongsTo(models.Product, {
         foreignKey: "product_id",
         as: "product",
@@ -20,36 +15,21 @@ module.exports = (sequelize, DataTypes) => {
 
   OrderItem.init(
     {
-      order_id: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-      },
-      product_id: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-      },
+      order_id: { type: DataTypes.INTEGER, allowNull: false },
+      product_id: { type: DataTypes.INTEGER, allowNull: false },
       quantity: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        validate: {
-          min: 1,
-        },
+        validate: { min: 1 },
       },
-      price: {
-        type: DataTypes.FLOAT,
-        allowNull: false,
-      },
-      subtotal: {
-        type: DataTypes.FLOAT,
-        allowNull: false,
-      },
+      price: { type: DataTypes.FLOAT, allowNull: false },
+      subtotal: { type: DataTypes.FLOAT, allowNull: false },
     },
     {
       sequelize,
       modelName: "OrderItem",
-      tableName: "orderitems", // opsional: custom nama tabel
+      tableName: "orderitems",
     }
   );
-
   return OrderItem;
 };

@@ -1,11 +1,13 @@
-const { Product } = require("../models");
+// ProductServices.js
+const { Product } = require("../models"); //
 
 const createProduct = async (data) => {
   return await Product.create(data);
 };
 
-const findAll = async () => {
-  return await Product.findAll();
+const findAll = async (options = {}) => {
+  // <-- PERUBAHAN: tambahkan parameter `options`
+  return await Product.findAll(options); // <-- PERUBAHAN: teruskan `options` ke Sequelize
 };
 
 const findById = async (id) => {
@@ -16,10 +18,9 @@ const update = async (id, data) => {
   const product = await Product.findByPk(id);
   if (!product) return null;
 
-  await product.update(data); // <- ini penting
+  await product.update(data);
   return product;
 };
-
 
 const remove = async (id) => {
   const product = await Product.findByPk(id);
@@ -30,7 +31,7 @@ const remove = async (id) => {
 
 module.exports = {
   createProduct,
-  findAll,
+  findAll, // Pastikan ini diekspor
   findById,
   update,
   remove,

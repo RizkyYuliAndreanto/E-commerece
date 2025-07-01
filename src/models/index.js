@@ -6,7 +6,7 @@ const Sequelize = require("sequelize");
 const process = require("process");
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || "development";
-const config = require("../../config/config.js")[env];
+const config = require(__dirname + "/../../config/config.js")[env]; // Pastikan path ini benar relative ke config.js
 const db = {};
 
 let sequelize;
@@ -45,10 +45,11 @@ fs.readdirSync(__dirname)
       sequelize,
       Sequelize.DataTypes
     );
-    db[model.name] = model;
+    db[model.name] = model; // Model ditambahkan ke db[NamaModel]
   });
 
 // Inisialisasi asosiasi model jika ada
+// Ini akan memanggil metode 'associate' di setiap model
 Object.keys(db).forEach((modelName) => {
   if (db[modelName].associate) {
     db[modelName].associate(db);
